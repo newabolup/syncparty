@@ -10,6 +10,9 @@ jobs:
   validate-and-test:
     name: Build, Typecheck & Test
     runs-on: ubuntu-latest
+    env:
+      DATABASE_URL: file:./dev.db
+
 
     steps:
       - name: Checkout repository
