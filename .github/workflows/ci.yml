@@ -24,14 +24,22 @@ jobs:
       - name: Install dependencies
         run: npm ci
 
-      - name: Generate Prisma Client
-        run: npm run prisma:generate --workspace=@syncparty/server
+      - name: Generate Prisma Client & Push DB
+        run: |
+          npm run prisma:generate --workspace=@syncparty/server
+          npm run prisma:push --workspace=@syncparty/server
+        env:
+          DATABASE_URL: file:./dev.db
 
-      - name: Typecheck TypeScript code
-        run: npm run typecheck
+      - name: Build Shared Library
+        run: npm run build:shared
 
       - name: Run Test Suites
         run: npm test
 
+      - name: Typecheck TypeScript code
+        run: npm run typecheck
+
       - name: Build All Workspaces
         run: npm run build
+
