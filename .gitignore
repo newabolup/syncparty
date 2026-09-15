@@ -18,6 +18,9 @@ build
 .env.test.local
 .env.production.local
 *.env
+!.env.production
+!.env.development
+
 
 # Prisma
 packages/server/prisma/*.db

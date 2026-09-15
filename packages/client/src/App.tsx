@@ -21,7 +21,7 @@ export const App: React.FC = () => {
   };
 
   return (
-    <BrowserRouter>
+    <BrowserRouter basename={import.meta.env.BASE_URL}>
       <div className="min-h-screen bg-slate-950 text-slate-100 flex flex-col">
         <Routes>
           <Route

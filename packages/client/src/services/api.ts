@@ -1,5 +1,7 @@
 import { CreateRoomInput, RoomMetadata } from '@syncparty/shared';
 
+const API_BASE = (import.meta.env.VITE_API_URL || '').replace(/\/$/, '');
+
 export interface CreateRoomResponse {
   success: boolean;
   room: RoomMetadata;
@@ -20,7 +22,7 @@ export interface RoomInfoResponse {
 }
 
 export async function createRoom(data: CreateRoomInput): Promise<CreateRoomResponse> {
-  const res = await fetch('/api/rooms', {
+  const res = await fetch(`${API_BASE}/api/rooms`, {
     method: 'POST',
     headers: { 'Content-Type': 'application/json' },
     body: JSON.stringify(data),
@@ -35,7 +37,7 @@ export async function createRoom(data: CreateRoomInput): Promise<CreateRoomRespo
 }
 
 export async function getRoomInfo(idOrSlug: string): Promise<RoomInfoResponse> {
-  const res = await fetch(`/api/rooms/${encodeURIComponent(idOrSlug)}`);
+  const res = await fetch(`${API_BASE}/api/rooms/${encodeURIComponent(idOrSlug)}`);
 
   if (!res.ok) {
     const errorData = await res.json().catch(() => ({}));
@@ -49,7 +51,7 @@ export async function verifyRoomPassword(
   idOrSlug: string,
   password: string
 ): Promise<{ valid: boolean; error?: string }> {
-  const res = await fetch(`/api/rooms/${encodeURIComponent(idOrSlug)}/verify`, {
+  const res = await fetch(`${API_BASE}/api/rooms/${encodeURIComponent(idOrSlug)}/verify`, {
     method: 'POST',
     headers: { 'Content-Type': 'application/json' },
     body: JSON.stringify({ password }),
@@ -64,7 +66,8 @@ export async function verifyRoomPassword(
 }
 
 export async function checkServerHealth(): Promise<{ status: string; uptimeSeconds: number }> {
-  const res = await fetch('/api/health');
+  const res = await fetch(`${API_BASE}/api/health`);
   if (!res.ok) throw new Error('Server unhealthy');
   return res.json();
 }
+

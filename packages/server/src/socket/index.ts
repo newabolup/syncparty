@@ -12,9 +12,17 @@ import { registerSyncHandlers } from './sync-handler.js';
 import { registerChatHandlers, cleanupChatRateLimit } from './chat-handler.js';
 
 export function setupSocketServer(httpServer: HttpServer): Server {
+  const allowedOrigins = config.CORS_ORIGIN.split(',').map((o) => o.trim());
+
   const io = new Server(httpServer, {
     cors: {
-      origin: config.CORS_ORIGIN.split(','),
+      origin: (origin, callback) => {
+        if (!origin || allowedOrigins.includes('*') || allowedOrigins.includes(origin) || origin.endsWith('.github.io')) {
+          callback(null, true);
+        } else {
+          callback(null, false);
+        }
+      },
       methods: ['GET', 'POST'],
       credentials: true,
     },

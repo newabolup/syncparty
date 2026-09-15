@@ -24,13 +24,22 @@ export function createApp(): Express {
     })
   );
 
+  const allowedOrigins = config.CORS_ORIGIN.split(',').map((o) => o.trim());
+
   // Cross-Origin Resource Sharing
   app.use(
     cors({
-      origin: config.CORS_ORIGIN.split(','),
+      origin: (origin, callback) => {
+        if (!origin || allowedOrigins.includes('*') || allowedOrigins.includes(origin) || origin.endsWith('.github.io')) {
+          callback(null, true);
+        } else {
+          callback(null, false);
+        }
+      },
       credentials: true,
     })
   );
+
 
   // Body parsers
   app.use(express.json({ limit: '1mb' }));

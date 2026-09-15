@@ -18,7 +18,9 @@ export const ShareModal: React.FC<ShareModalProps> = ({
 
   if (!isOpen) return null;
 
-  const shareUrl = `${window.location.origin}/room/${roomSlug}`;
+  const basePath = (import.meta.env.BASE_URL || '/').replace(/\/$/, '');
+  const shareUrl = `${window.location.origin}${basePath}/room/${roomSlug}`;
+
 
   const handleCopy = () => {
     navigator.clipboard.writeText(shareUrl);
