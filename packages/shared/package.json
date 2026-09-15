@@ -15,8 +15,8 @@
     }
   },
   "scripts": {
-    "build": "tsc -b",
-    "clean": "rimraf dist",
+    "build": "tsc",
+    "clean": "rimraf dist tsconfig.tsbuildinfo",
     "typecheck": "tsc --noEmit",
     "test": "vitest run"
   },

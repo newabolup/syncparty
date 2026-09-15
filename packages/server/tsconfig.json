@@ -11,7 +11,7 @@
     "forceConsistentCasingInFileNames": true,
     "baseUrl": ".",
     "paths": {
-      "@syncparty/shared": ["../shared/dist/index.d.ts"]
+      "@syncparty/shared": ["../shared/dist/index.d.ts", "../shared/src/index.ts"]
     }
   },
   "include": ["src/**/*"],
