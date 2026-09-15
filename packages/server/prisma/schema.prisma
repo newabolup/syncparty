@@ -1,0 +1,44 @@
+datasource db {
+  provider = "sqlite"
+  url      = env("DATABASE_URL")
+}
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+model Room {
+  id                 String        @id @default(cuid())
+  slug               String        @unique
+  name               String
+  passwordHash       String?
+  hostToken          String
+  isHostOnlyControls Boolean       @default(true)
+  videoUrl           String        @default("")
+  videoProvider      String        @default("direct")
+  isPlaying          Boolean       @default(false)
+  playbackPosition   Float         @default(0.0)
+  playbackRate       Float         @default(1.0)
+  serverTimestamp    BigInt
+  sequenceNumber     Int           @default(0)
+  createdAt          DateTime      @default(now())
+  updatedAt          DateTime      @updatedAt
+  chatMessages       ChatMessage[]
+
+  @@index([slug])
+}
+
+model ChatMessage {
+  id          String   @id @default(cuid())
+  roomId      String
+  senderId    String
+  senderName  String
+  senderRole  String   @default("participant")
+  senderColor String   @default("#3b82f6")
+  content     String
+  type        String   @default("message")
+  createdAt   DateTime @default(now())
+  room        Room     @relation(fields: [roomId], references: [id], onDelete: Cascade)
+
+  @@index([roomId])
+}

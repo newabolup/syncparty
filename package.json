@@ -1,0 +1,34 @@
+{
+  "name": "syncparty-monorepo",
+  "version": "1.0.0",
+  "private": true,
+  "description": "Production-grade synchronized online Watch Party platform",
+  "workspaces": [
+    "packages/*"
+  ],
+  "scripts": {
+    "dev": "npm run dev --workspaces --if-present",
+    "dev:server": "npm run dev --workspace=@syncparty/server",
+    "dev:client": "npm run dev --workspace=@syncparty/client",
+    "build:shared": "npm run build --workspace=@syncparty/shared",
+    "build:server": "npm run build --workspace=@syncparty/server",
+    "build:client": "npm run build --workspace=@syncparty/client",
+    "build": "npm run build:shared && npm run build:server && npm run build:client",
+    "test": "npm run test --workspaces --if-present",
+    "test:coverage": "npm run test:coverage --workspaces --if-present",
+    "typecheck": "npm run typecheck --workspaces --if-present",
+    "lint": "npm run lint --workspaces --if-present",
+    "format": "prettier --write \"packages/**/*.{ts,tsx,json,css,md}\""
+  },
+  "keywords": [
+    "watchparty",
+    "video-sync",
+    "webrtc",
+    "websockets",
+    "socketio",
+    "hls",
+    "synchronization"
+  ],
+  "author": "newabolup",
+  "license": "MIT"
+}
